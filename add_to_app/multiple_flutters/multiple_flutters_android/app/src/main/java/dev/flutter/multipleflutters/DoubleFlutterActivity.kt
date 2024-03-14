@@ -14,10 +14,14 @@ import io.flutter.embedding.engine.FlutterEngineCache
  */
 class DoubleFlutterActivity : FragmentActivity(), EngineBindingsDelegate {
     private val topBindings: EngineBindings by lazy {
-        EngineBindings(activity = this, delegate = this, entrypoint = "topMain")
+        EngineBindings(activity = this, delegate = this, entrypoint = "topMain",
+                       appBundlePath = "flutter_assets",//flutter_assets_custom
+                       dartEntrypointLibrary = "package:multiple_flutters_module/Page1.dart")
     }
     private val bottomBindings: EngineBindings by lazy {
-        EngineBindings(activity = this, delegate = this, entrypoint = "bottomMain")
+        EngineBindings(activity = this, delegate = this, entrypoint = "bottomMain",//bottomMain
+                       appBundlePath = "flutter_assets",
+                       dartEntrypointLibrary = "package:multiple_flutters_module/Page1.dart")
     }
     private val numberOfFlutters = 2
     private val engineCountStart : Int

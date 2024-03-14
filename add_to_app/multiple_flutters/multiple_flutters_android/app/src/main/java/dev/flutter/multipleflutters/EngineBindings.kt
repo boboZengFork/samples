@@ -3,6 +3,7 @@ package dev.flutter.multipleflutters
 import android.app.Activity
 import io.flutter.FlutterInjector
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineGroup
 import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.plugin.common.MethodChannel
 
@@ -29,20 +30,29 @@ interface EngineBindingsDelegate {
  *
  * @see main.dart for what messages are getting sent from Flutter.
  */
-class EngineBindings(activity: Activity, delegate: EngineBindingsDelegate, entrypoint: String) :
+class EngineBindings(activity: Activity, delegate: EngineBindingsDelegate, entrypoint: String,
+                     appBundlePath:String?=null,
+                     dartEntrypointLibrary:String?=null) :
     DataModelObserver {
     val channel: MethodChannel
     val engine: FlutterEngine
     val delegate: EngineBindingsDelegate
 
     init {
+        println("zengbobo EngineBindings appBundlePath=${appBundlePath},${FlutterInjector.instance().flutterLoader().findAppBundlePath()}")
         val app = activity.applicationContext as App
         // This has to be lazy to avoid creation before the FlutterEngineGroup.
         val dartEntrypoint =
             DartExecutor.DartEntrypoint(
-                FlutterInjector.instance().flutterLoader().findAppBundlePath(), entrypoint
+                appBundlePath?: FlutterInjector.instance().flutterLoader().findAppBundlePath(),
+//                activity.getExternalFilesDir("flutter_zbb")?.absolutePath?:"flutter_zbb",
+                dartEntrypointLibrary?:"package:multiple_flutters_module/Page1.dart",
+                entrypoint
             )
-        engine = app.engines.createAndRunEngine(activity, dartEntrypoint)
+
+        engine = app.engines.createAndRunEngine(FlutterEngineGroup.Options(activity).setDartEntrypoint(dartEntrypoint)
+                                                      .setInitialRoute(null)
+                                                      .setDartEntrypointArgs(arrayListOf("1","2")))
         this.delegate = delegate
         channel = MethodChannel(engine.dartExecutor.binaryMessenger, "multiple-flutters")
     }

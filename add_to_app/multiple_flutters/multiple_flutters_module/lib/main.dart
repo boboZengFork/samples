@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:multiple_flutters_module/Page1.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 void main() => runApp(const MyApp(color: Colors.blue));
@@ -12,10 +13,14 @@ void main() => runApp(const MyApp(color: Colors.blue));
 void topMain() => runApp(const MyApp(color: Colors.green));
 
 @pragma('vm:entry-point')
-void bottomMain() => runApp(const MyApp(color: Colors.purple));
+void bottomMain(List<String> dartEntrypointArgs) {
+  print("zengbobo bottomMain dartEntrypointArgs:$dartEntrypointArgs");
+  runApp(const MyApp(color: Colors.purple));
+}
+
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.color});
+  const MyApp({Key key, this.color}) : super(key: key);
 
   final MaterialColor color;
 
@@ -38,7 +43,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -46,8 +51,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int? _counter = 0;
-  late MethodChannel _channel;
+  int _counter = 0;
+  MethodChannel _channel;
 
   @override
   void initState() {
@@ -57,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (call.method == "setCount") {
         // A notification that the host platform's data model has been updated.
         setState(() {
-          _counter = call.arguments as int?;
+          _counter = call.arguments as int;
         });
       } else {
         throw Exception('not implemented ${call.method}');
@@ -80,12 +85,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset("assets/board_ic_finish.png", width: 72, height: 120,),
             const Text(
               'You have pushed the button this many times:',
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .headlineMedium,
             ),
             TextButton(
               onPressed: _incrementCounter,

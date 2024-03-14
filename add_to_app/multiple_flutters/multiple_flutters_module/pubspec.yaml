@@ -4,7 +4,8 @@ description: A module that is embedded in the multiple_flutters_ios and multiple
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.2.0
+  sdk: ">=2.10.0 <3.0.0"
+#  sdk: ^3.2.0
 
 dependencies:
   flutter:
@@ -21,6 +22,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
 
   module:
     androidX: true

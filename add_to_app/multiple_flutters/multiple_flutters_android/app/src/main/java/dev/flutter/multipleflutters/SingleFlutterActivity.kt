@@ -13,7 +13,10 @@ import io.flutter.embedding.engine.FlutterEngine
  */
 class SingleFlutterActivity : FlutterActivity(), EngineBindingsDelegate {
     private val engineBindings: EngineBindings by lazy {
-        EngineBindings(activity = this, delegate = this, entrypoint = "main")
+        EngineBindings(activity = this, delegate = this, entrypoint = "bottomMain",
+                       appBundlePath = "flutter_assets_custom",
+                       dartEntrypointLibrary = "package:multiple_flutters_module/main.dart")
+//        EngineBindings(activity = this, delegate = this, entrypoint = "main")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
