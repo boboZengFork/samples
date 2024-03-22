@@ -16,6 +16,8 @@ dev_dependencies:
   analysis_defaults:
     path: ../../../analysis_defaults
   pigeon: ">=11.0.0 <18.0.0"
+  test_dart_cmd:
+    path: ../../test_dart_cmd
   flutter_test:
     sdk: flutter
 
