@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ void main() {
     ChangeNotifierProvider.value(
       value: model,
       child: const MyApp(),
+      // child: const Cell(),
     ),
   );
 }
@@ -79,6 +81,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const FullScreenView(),
         '/mini': (context) => const Contents(),
+        '/cell': (context) => const Cell(),
       },
     );
   }
@@ -161,6 +164,7 @@ class Contents extends StatelessWidget {
                     );
                   },
                 ),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () async {
                     // Use the url_launcher plugin to open the Flutter docs in
@@ -171,6 +175,20 @@ class Contents extends StatelessWidget {
                     }
                   },
                   child: const Text('Open Flutter Docs'),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () async {
+                    await Navigator.of(context).pushNamed("/cell");
+                  },
+                  child: const Text('start Cell'),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () async {
+                    await Navigator.of(context).pushNamed("/mini");
+                  },
+                  child: const Text('start mini'),
                 ),
                 if (showExit) ...[
                   const SizedBox(height: 16),
